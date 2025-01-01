@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000000; /* Match the home page background color */
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center content horizontally */
+            background-color: #000000; /* Match the home page background color */
+            width: 80%;
+            max-width: 1200px;
+            color: #ececec; /* Match text color */
+            background-color: rgba(3, 3, 3, 0);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 40px; /* Space between title and buttons */
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: row; /* Stack buttons vertically */
+            gap: 20px; /* Space between buttons */
+        }
+        .buttons a {
+            padding: 15px 25px;
+            font-size: 25px;
+            font-style: bold;
+            color: white;
+            background-color:#0e478e; /* Button background color */
+            text-decoration: none; /* Remove underline from links */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 200px; /* Set a fixed width for buttons */
+        }
+        .buttons a:hover {
+            background-color: #5dd1f6; /* Change color on hover */
+        }
+        .background-gif {
+            position: absolute; /* Position it absolutely */
+            bottom: 0; /* Align to the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust to center */
+            z-index: -1; /* Send to back */
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='background.gif') }}" alt="Background GIF" class="background-gif">
+    <div class="container">
+        <h1>Choose an Option</h1>
+        <div class="buttons">
+            <a href="{{ url_for('name') }}">New User</a>
+            <a href="{{ url_for('home') }}">Registered</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Your Name</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000000;
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            border-radius: 10px;
+            color: #ececec;
+            width: 80%;
+            max-width: 400px;
+            background-color: rgba(3, 3, 3, 0);
+            margin: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 50px; 
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            width: 100%;
+        }
+        .input-group input:focus {
+            box-shadow: 0px 0px 5px #5dd1f6;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+        .buttons button {
+            padding: 15px 25px;
+            font-size: 25px;
+            font-style: bold;
+            color: white;
+            background-color: #0e478e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons button:hover {
+            background-color: #5dd1f6;
+        }
+        .background-gif {
+            position: absolute; /* Position it absolutely */
+            bottom: 0; /* Align to the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust to center */
+            z-index: -1; /* Send to back */
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='background.gif') }}" alt="Background GIF" class="background-gif">
+    <div class="container">
+        <h1>Enter Your Name</h1>
+        <form method="POST" action="{{ url_for('train_model') }}">
+            <div class="input-group">
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+            </div>
+            <div class="buttons">
+                <button type="submit">Continue</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

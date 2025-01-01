@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capturing Faces</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        .webcam {
+            flex: 1;
+            background-color: #222;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .tips {
+            flex: 1;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="webcam">
+            <p>Webcam feed will appear here.</p>
+        </div>
+        <div class="tips">
+            <h2>Capturing Your Face</h2>
+            <p>Follow these tips for best results:</p>
+            <ul>
+                <li>Look directly into the camera.</li>
+                <li>Slowly move your face in different directions.</li>
+                <li>Ensure good lighting and avoid shadows.</li>
+            </ul>
+            <p>Once completed, the model will be trained, and your face will be registered.</p>
+        </div>
+    </div>
+</body>
+</html>

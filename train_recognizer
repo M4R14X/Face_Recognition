@@ -1,0 +1,43 @@
+import cv2
+import os
+import numpy as np
+
+# Load the Haar Cascade model for face detection
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# Initialize the LBPH face recognizer
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+
+# Prepare data for training
+faces = []  # To store face images
+labels = []  # To store corresponding labels
+label_dict = {}  # Map label IDs to person names
+label_id = 0
+
+# Path to the dataset
+dataset_path = 'dataset'
+
+# Read images from the dataset
+for person_name in os.listdir(dataset_path):
+    person_path = os.path.join(dataset_path, person_name)
+    if not os.path.isdir(person_path):  # Skip non-folder items
+        continue
+
+    label_dict[label_id] = person_name
+    for image_name in os.listdir(person_path):
+        image_path = os.path.join(person_path, image_name)
+        image = cv2.imread(image_path)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+        faces_detected = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+
+        for (x, y, w, h) in faces_detected:
+            face = gray[y:y+h, x:x+w]
+            faces.append(face)
+            labels.append(label_id)
+
+    label_id += 1
+
+# Train the recognizer
+recognizer.train(faces, np.array(labels))
+recognizer.save('face_model.yml')  # Save the trained model
+print("Model trained and saved successfully!")
