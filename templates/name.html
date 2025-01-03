@@ -79,12 +79,14 @@
     <img src="{{ url_for('static', filename='background.gif') }}" alt="Background GIF" class="background-gif">
     <div class="container">
         <h1>Enter Your Name</h1>
-        <form method="POST" action="{{ url_for('train_model') }}">
+        <form action="/capture" method="POST">
             <div class="input-group">
-                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                <label for="limit">Number of Pictures (default: 50):</label>
+                <input type="number" id="limit" name="limit" value="50">
             </div>
             <div class="buttons">
-                <button type="submit">Continue</button>
+                <button type="submit">Start</button>
             </div>
         </form>
     </div>
