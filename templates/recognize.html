@@ -3,12 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Recognition</title>
+    <title>Live Face Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 {
+            color: #5acad2;
+        }
+
+        #video-container {
+            width: 640px;
+            height: 480px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #333;
+            background-color: #000;
+        }
+
+        #video-container img {
+            border-radius: 10px;
+            border: 2px solid #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test Face Recognition</h1>
-    <div>
-        <img src="/start_recognition" width="640" height="480">
+    <h1>Live Face Recognition</h1>
+    <div id="video-container">
+        <img src="/start_recognition" alt="Live Recognition Feed">
     </div>
 </body>
 </html>

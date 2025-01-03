@@ -90,7 +90,7 @@ def save_images(person_path):
 
         if count >= image_limit:
             capturing = False
-
+            
 # Route: Train Model
 @app.route('/train', methods=['POST'])
 def train_model():
@@ -138,30 +138,33 @@ def start_recognition():
     with open(labels_path, 'rb') as f:
         label_dict = pickle.load(f)
 
-    while True:
-        success, frame = cap.read()
-        if not success:
-            break
+    def gen():
+        while True:
+            success, frame = cap.read()
+            if not success:
+                break
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
 
-        for (x, y, w, h) in faces:
-            face = gray[y:y+h, x:x+w]
-            id_, confidence = recognizer.predict(face)
-            if confidence < 50:  # Confidence threshold
-                name = label_dict[id_]
-                cv2.putText(frame, name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-            else:
-                cv2.putText(frame, "Unknown", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+            for (x, y, w, h) in faces:
+                face = gray[y:y + h, x:x + w]
+                id_, confidence = recognizer.predict(face)
+                if confidence < 50:  # Confidence threshold
+                    name = label_dict[id_]
+                    cv2.putText(frame, name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+                else:
+                    cv2.putText(frame, "Unknown", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        return Response((b'--frame\r\n'
-                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

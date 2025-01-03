@@ -29,7 +29,7 @@
             margin: 20px;
         }
         h1 {
-            font-size: 3rem;
+            font-size: 2rem;
             margin-bottom: 50px; 
         }
         .input-group {
@@ -39,6 +39,8 @@
             margin-bottom: 20px;
         }
         .input-group input {
+            margin-top: 10px;
+            margin-bottom: 20px;
             padding: 10px;
             font-size: 1rem;
             border: none;
@@ -47,7 +49,7 @@
             width: 100%;
         }
         .input-group input:focus {
-            box-shadow: 0px 0px 5px #5dd1f6;
+            box-shadow: 0px 0px 5px #5acad2;
         }
         .buttons {
             display: flex;
@@ -58,13 +60,13 @@
             font-size: 25px;
             font-style: bold;
             color: white;
-            background-color: #0e478e;
+            background-color:#223aab;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         .buttons button:hover {
-            background-color: #5dd1f6;
+            background-color: #5acad2;
         }
         .background-gif {
             position: absolute; /* Position it absolutely */
@@ -78,12 +80,12 @@
 <body>
     <img src="{{ url_for('static', filename='background.gif') }}" alt="Background GIF" class="background-gif">
     <div class="container">
-        <h1>Enter Your Name</h1>
+        <h1>What's Your Name?</h1>
         <form action="/capture" method="POST">
             <div class="input-group">
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
-                <label for="limit">Number of Pictures (default: 50):</label>
-                <input type="number" id="limit" name="limit" value="50">
+                <label for="limit">Number of pictures to be captured (default: 100):</label>
+                <input type="number" id="limit" name="limit" value="100">
             </div>
             <div class="buttons">
                 <button type="submit">Start</button>
