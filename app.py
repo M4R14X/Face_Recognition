@@ -65,8 +65,12 @@ def start_capture():
 
     # Start capturing in a new thread
     capturing = True
-    threading.Thread(target=save_images, args=(person_path,)).start()
-    return "", 204 
+    thread=threading.Thread(target=save_images, args=(person_path,))
+    thread.start()
+    thread.join()
+    return jsonify({"status": "Training complete"})
+
+    
 def save_images(person_path):
     global capturing
     count = 0
@@ -87,8 +91,7 @@ def save_images(person_path):
         if count >= image_limit:
             capturing = False
         time.sleep(0.5)
-    with app.app_context():
-        train_model()
+    train_model()
 
 def train_model():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -119,7 +122,6 @@ def train_model():
     with open(labels_path, 'wb') as f:
         pickle.dump(label_dict, f)
 
-    return jsonify({"status": "Training complete"})
 
 # Route: Recognize Page
 @app.route('/recognize')
