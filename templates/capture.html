@@ -126,29 +126,21 @@
             const statusMessage = document.getElementById('status-message');
             const proceedButton = document.getElementById('proceed');
 
-            statusMessage.textContent = "Starting capture...";
+            statusMessage.textContent = "Capturing...";
             fetch('/start_capture', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    statusMessage.textContent = data.status;
-
-                    // Proceed to training
-                    statusMessage.textContent += " Training in progress...";
-                    fetch('/train', { method: 'POST' })
-                        .then(trainResponse => trainResponse.json())
-                        .then(trainData => {
-                            statusMessage.textContent = trainData.status;
-                            if (trainData.status.includes("Training complete")) {
-                                proceedButton.disabled = false; // Enable the button
-                            }
-                        })
-                        .catch(err => {
-                            statusMessage.textContent = "Error during training: " + err.message;
-                        });
-                })
-                .catch(err => {
-                    statusMessage.textContent = "Error during capture: " + err.message;
-                });
+            .then(response => response.json())
+            .then(data => {
+                // Once the process is complete, update the message
+                if (data.status === "Training complete") {
+                    statusMessage.textContent = "Capturing complete. Training complete.";
+                    proceedButton.disabled = false;
+                } else {
+                    statusMessage.textContent = "Unexpected response: " + JSON.stringify(data);
+                }
+            })
+            .catch(err => {
+                statusMessage.textContent = "Error during process: " + err.message;
+            });
         }
 
         function goToRecognition() {

@@ -35,7 +35,6 @@ def name():
         # Redirect to face capturing with the provided name
         return redirect(url_for('capture_faces', username=username))
     return render_template('name.html')
-
 # Route: Capture and Train Page
 @app.route('/capture', methods=['POST'])
 def capture():
@@ -57,7 +56,6 @@ def generate_frames():
 @app.route('/video_feed')
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
 # Route: Capture and Train Images
 @app.route('/start_capture', methods=['POST'])
 def start_capture():
@@ -68,8 +66,7 @@ def start_capture():
     # Start capturing in a new thread
     capturing = True
     threading.Thread(target=save_images, args=(person_path,)).start()
-    return jsonify({"status": "Capturing started!"})
-
+    return "", 204 
 def save_images(person_path):
     global capturing
     count = 0
@@ -87,15 +84,14 @@ def save_images(person_path):
             count += 1
             file_name = os.path.join(person_path, f"{count}.jpg")
             cv2.imwrite(file_name, face)
-
         if count >= image_limit:
             capturing = False
-            
-# Route: Train Model
-@app.route('/train', methods=['POST'])
+        time.sleep(0.5)
+    with app.app_context():
+        train_model()
+
 def train_model():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
-
     faces = []
     labels = []
     label_dict = {}
@@ -123,7 +119,7 @@ def train_model():
     with open(labels_path, 'wb') as f:
         pickle.dump(label_dict, f)
 
-    return jsonify({"status": "Training completed!"})
+    return jsonify({"status": "Training complete"})
 
 # Route: Recognize Page
 @app.route('/recognize')
